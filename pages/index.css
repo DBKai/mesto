@@ -20,3 +20,13 @@
 @import url(../blocks/cards/__like-button/cards__like-button.css);
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__copyright/footer__copyright.css);
+@import url(../blocks/popup/popup.css);
+@import url(../blocks/popup/__container/popup__container.css);
+@import url(../blocks/popup/__profile/popup__profile.css);
+@import url(../blocks/popup/__heading/popup__heading.css);
+@import url(../blocks/popup/__item-container/popup__item-container.css);
+@import url(../blocks/popup/__item/popup__item.css);
+@import url(../blocks/popup/__item_profile_name/popup__item_profile_name.css);
+@import url(../blocks/popup/__item_profile_job/popup__item_profile_job.css);
+@import url(../blocks/popup/__save/popup__save.css);
+@import url(../blocks/popup/__close/popup__close.css);
