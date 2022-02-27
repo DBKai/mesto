@@ -1,4 +1,12 @@
 .profile__info {
   padding: 26px 0 33px;
   color: white;
+  text-align: center;
+}
+
+@media screen and (min-width: 700px) {
+  .profile__info {
+    padding: 0 0 0 30px;
+    text-align: left;
+  }
 }

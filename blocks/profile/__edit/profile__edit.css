@@ -9,8 +9,18 @@
   background-position: center;
   transition: opacity 0.2s ease-out;
   cursor: pointer;
+  box-sizing: border-box;
+  display: inline-flex;
 }
 
 .profile__edit:hover {
   opacity: 0.6;
+}
+
+@media screen and (min-width: 700px) {
+  .profile__edit {
+    width: 24px;
+    height: 24px;
+    background-size: 10px;
+  }
 }
