@@ -1,5 +1,4 @@
 .header {
-  min-width: 320px;
   max-width: 880px;
   margin: 0 auto;
   padding: 28px 0 31px 27px;
@@ -9,7 +8,7 @@
   background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
 }
 
-@media screen and (min-width: 880px) {
+@media screen and (min-width: 918px) {
   .header {
     padding: 45px 0 40px;
   }
