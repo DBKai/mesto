@@ -7,11 +7,20 @@
   background-image: url(../../../images/close.svg);
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 20px;
+  background-size: cover;
   transition: opacity 0.2s ease-out;
   cursor: pointer;
 }
 
 .popup__close:hover {
   opacity: 0.6;
+}
+
+@media screen and (min-width: 680px) {
+  .popup__close {
+    width: 32px;
+    height: 32px;
+    top: -40px;
+    right: -40px;
+  }
 }
