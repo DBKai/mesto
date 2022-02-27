@@ -7,8 +7,8 @@ let profileEditButton = document.querySelector('.profile__edit');
 let popupCloseButton = formElement.querySelector('.popup__close');
 let popupSaveButton = formElement.querySelector('.popup__save');
 
-function formSubmitHandler (evt) {
-    evt.preventDefault();
+function formSubmitHandler (event) {
+    event.preventDefault();
 
     let name = nameInput.value;
     let job = jobInput.value;
@@ -25,7 +25,7 @@ function togglePopup() {
 }
 
 formElement.addEventListener('click', (event) => {
-  if(event.target === event.currentTarget) {
+  if (event.target === event.currentTarget) {
     togglePopup();
   }
 });
@@ -33,4 +33,3 @@ formElement.addEventListener('click', (event) => {
 formElement.addEventListener('submit', formSubmitHandler);
 profileEditButton.addEventListener('click', togglePopup);
 popupCloseButton.addEventListener('click', togglePopup);
-popupSaveButton.addEventListener('click', togglePopup);
