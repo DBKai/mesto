@@ -33,3 +33,4 @@ formElement.addEventListener('click', (event) => {
 formElement.addEventListener('submit', formSubmitHandler);
 profileEditButton.addEventListener('click', togglePopup);
 popupCloseButton.addEventListener('click', togglePopup);
+popupSaveButton.addEventListener('click', togglePopup);
