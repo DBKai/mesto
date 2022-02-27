@@ -8,7 +8,7 @@
   overflow: hidden;
 }
 
-@media screen and (min-width: 700px) {
+@media screen and (min-width: 750px) {
   .profile__name {
     margin: 0 18px 0 0;
     font-size: 42px;
