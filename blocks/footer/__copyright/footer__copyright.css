@@ -4,3 +4,10 @@
   line-height: 17px;
   color: #545454;
 }
+
+@media screen and (min-width: 880px) {
+  .footer__copyright {
+    font-size: 18px;
+    line-height: 22px;
+  }
+}
