@@ -10,7 +10,7 @@
   transition: opacity 0.2s ease-out;
   cursor: pointer;
   box-sizing: border-box;
-  display: inline-flex;
+  display: flex;
 }
 
 .profile__edit:hover {
