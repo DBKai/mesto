@@ -1,8 +1,8 @@
 // Находим форму в DOM
 let formElement = document.querySelector('.popup');
 // Находим поля формы в DOM
-let nameInput = formElement.querySelector('.popup__item-profile-name');
-let jobInput = formElement.querySelector('.popup__item-profile-job');
+let nameInput = formElement.querySelector('.popup__item_profile_name');
+let jobInput = formElement.querySelector('.popup__item_profile_job');
 // Находим кнопку изменить в DOM
 let profileEditButton = document.querySelector('.profile__edit');
 // Находим кнопку закрыть в DOM
