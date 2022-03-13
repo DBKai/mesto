@@ -10,6 +10,9 @@ node_modules/
 !.vscode/launch.json
 !.vscode/extensions.json
 
+#IDE - JetBrains WebStorm
+.idea/*
+
 # System Files
 .DS_Store
 Thumbs.db
