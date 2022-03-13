@@ -3,6 +3,7 @@
   height: 50px;
   margin: 0 auto;
   border: 2px solid white;
+  border-radius: 2px;
   background-image: url(../../../images/plus.svg);
   background-size: 16px;
   background-color: transparent;
