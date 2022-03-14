@@ -15,28 +15,34 @@ let cardContainer = document.querySelector('.cards');
 
 const initialCards = [
   {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+    name: 'Карачаевск',
+    link: '../images/kirill-pershin-1088404-unsplash.jpg',
+    description: 'Карачаевск'
   },
   {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+    name: 'Гора Эльбрус',
+    link: '../images/kirill-pershin-1404681-unsplash.jpg',
+    description: 'Гора Эльбрус'
   },
   {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+    name: 'Домбай',
+    link: '../images/kirill-pershin-1556355-unsplash.jpg',
+    description: 'Домбай'
   },
   {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+    name: 'Гора Эльбрус',
+    link: '../images/kirill-pershin-1404681-unsplash.jpg',
+    description: 'Гора Эльбрус'
   },
   {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+    name: 'Домбай',
+    link: '../images/kirill-pershin-1556355-unsplash.jpg',
+    description: 'Домбай'
   },
   {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+    name: 'Карачаево-Черкессия',
+    link: '../images/kirill-pershin-1088404-unsplash.jpg',
+    description: 'Карачаево-Черкессия'
   }
 ];
 
@@ -62,20 +68,20 @@ function closePopup() {
 }
 
 // Функция добавляет блок с карточкой
-function addCard(cardTitle, imageSrc, imageAlt) {
+function addCard(cardTitle, imageSrc, imageDescription) {
   const cardTemplate = document.querySelector('#card-template').content;
   const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
 
   cardElement.querySelector('.card__title').textContent = cardTitle;
   cardElement.querySelector('.card__image').src = imageSrc;
-  cardElement.querySelector('.card__image').alt = imageAlt;
+  cardElement.querySelector('.card__image').alt = imageDescription;
 
   cardContainer.append(cardElement);
 }
 
 function renderCards() {
   initialCards.forEach((item) => {
-    addCard(item.name, item.link, item.name);
+    addCard(item.name, item.link, item.description);
   });
 }
 
