@@ -1,17 +1,35 @@
-// Находим форму в DOM
-let formElement = document.querySelector('.popup');
-// Находим поля формы в DOM
-let nameInput = formElement.querySelector('.popup__item_profile_name');
-let jobInput = formElement.querySelector('.popup__item_profile_job');
-// Находим кнопку изменить в DOM
-let profileEditButton = document.querySelector('.profile__edit');
-// Находим кнопку закрыть в DOM
-let popupCloseButton = formElement.querySelector('.popup__close');
+// Находим форму изменения профиля в DOM
+const profileForm = document.querySelector('.popup__profile');
+
+// Находим поля формы профиля в DOM
+const profileNameInput = profileForm.querySelector('.popup__item_profile_name');
+const profileJobInput = profileForm.querySelector('.popup__item_profile_job');
+
+// Находим форму добавления карточки в DOM
+const cardForm = document.querySelector('.popup__card');
+
+// Находим поля формы карточки в DOM
+const cardNameInput = cardForm.querySelector('.popup__item_card_name');
+const cardLinkInput = cardForm.querySelector('.popup__item_card_link');
+
+// Находим кнопку изменить данные профиля в DOM
+const profileEditButton = document.querySelector('.profile__edit');
+
+// Находим кнопку добавить карточку в DOM
+const cardAddButton = document.querySelector('.profile__card-add');
+
+// Находим кнопку закрыть форму в DOM
+const profileCloseButton = profileForm.querySelector('.popup__profile_close');
+
+// Находим кнопку закрыть форму в DOM
+const cardCloseButton = cardForm.querySelector('.popup__card_close');
+
 // Находим элементы, куда должны быть вставлены значения полей
-let profileName = document.querySelector('.profile__name');
-let profileJob = document.querySelector('.profile__job');
+const profileName = document.querySelector('.profile__name');
+const profileJob = document.querySelector('.profile__job');
+
 // Находим блок с карточками
-let cardContainer = document.querySelector('.cards');
+const cardContainer = document.querySelector('.cards');
 
 const initialCards = [
   {
@@ -47,24 +65,44 @@ const initialCards = [
 ];
 
 // Обработчик «отправки» формы, хотя пока она никуда отправляться не будет
-function formSubmitHandler (event) {
+function profileFormSubmitHandler (event) {
   event.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
   // Вставляем новые значения с помощью textContent
-  profileName.textContent = nameInput.value;
-  profileJob.textContent = jobInput.value;
-  closePopup();
+  profileName.textContent = profileNameInput.value;
+  profileJob.textContent = profileJobInput.value;
+  closeProfilePopup();
+}
+
+// Обработчик «отправки» формы, хотя пока она никуда отправляться не будет
+function cardFormSubmitHandler (event) {
+  event.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
+
+  addCard(cardNameInput.value, cardLinkInput.value, cardNameInput.value);
+  cardNameInput.value = '';
+  cardLinkInput.value = '';
+  closeCardPopup();
 }
 
 // Функция добавляет модификатор opened
-function openPopup() {
-  nameInput.value = profileName.textContent;
-  jobInput.value = profileJob.textContent;
-  formElement.classList.add('popup_opened');
+function openProfilePopup(event) {
+  profileNameInput.value = profileName.textContent;
+  profileJobInput.value = profileJob.textContent;
+  profileForm.classList.add('popup_opened');
+}
+
+// Функция добавляет модификатор opened
+function openCardPopup() {
+  cardForm.classList.add('popup_opened');
 }
 
 // Функция удаляет модификатор opened
-function closePopup() {
-  formElement.classList.remove('popup_opened');
+function closeProfilePopup(event) {
+  profileForm.classList.remove('popup_opened');
+}
+
+// Функция удаляет модификатор opened
+function closeCardPopup() {
+  cardForm.classList.remove('popup_opened');
 }
 
 // Функция добавляет блок с карточкой
@@ -76,9 +114,10 @@ function addCard(cardTitle, imageSrc, imageDescription) {
   cardElement.querySelector('.card__image').src = imageSrc;
   cardElement.querySelector('.card__image').alt = imageDescription;
 
-  cardContainer.append(cardElement);
+  cardContainer.prepend(cardElement);
 }
 
+// Функция читает массив и выводит карточки в DOM
 function renderCards() {
   initialCards.forEach((item) => {
     addCard(item.name, item.link, item.description);
@@ -95,10 +134,16 @@ renderCards();
 // }
 
 // Прикрепляем обработчик к форме: он будет следить за событием “submit” - «отправка»
-formElement.addEventListener('submit', formSubmitHandler);
+profileForm.addEventListener('submit', profileFormSubmitHandler);
+// Прикрепляем обработчик к кнопке изменения профиля
+profileEditButton.addEventListener('click', openProfilePopup);
+// Прикрепляем обработчик к кнопке Закрыть popup
+profileCloseButton.addEventListener('click', closeProfilePopup);
+// Прикрепляем обработчик к форме: он будет следить за событием “submit” - «отправка»
+cardForm.addEventListener('submit', cardFormSubmitHandler);
+// Прикрепляем обработчик к кнопке добавить карточку
+cardAddButton.addEventListener('click', openCardPopup);
+// Прикрепляем обработчик к кнопке Закрыть popup
+cardCloseButton.addEventListener('click', closeCardPopup);
 // Прикрепляем обработчик события click на popup
 // formElement.addEventListener('click', withinPopup);
-// Прикрепляем обработчик togglePopup к кнопке Edit profile
-profileEditButton.addEventListener('click', openPopup);
-// Прикрепляем обработчик togglePopup к кнопке Закрыть popup
-popupCloseButton.addEventListener('click', closePopup);

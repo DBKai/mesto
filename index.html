@@ -30,7 +30,7 @@
   <footer class="footer">
     <p class="footer__copyright">&copy; 2022 Mesto Russia</p>
   </footer>
-  <div class="popup">
+  <!--<div class="popup">
     <div class="popup__container">
       <button class="popup__close" type="button" aria-label="Закрыть редактирование профиля"></button>
       <h2 class="popup__heading">Редактировать профиль</h2>
@@ -40,6 +40,34 @@
           <input class="popup__item popup__item_profile_job" name="profile-job" type="text" placeholder="О себе">
         </fieldset>
        <button class="popup__save" type="submit">Сохранить</button>
+      </form>
+    </div>
+  </div>-->
+
+  <div class="popup popup__profile">
+    <div class="popup__container">
+      <button class="popup__close popup__profile_close" type="button" aria-label="Закрыть окно редактирования профиля"></button>
+      <h2 class="popup__heading">Редактировать профиль</h2>
+      <form name="profile-form">
+        <fieldset class="popup__item-container">
+          <input class="popup__item popup__item_profile_name" name="name" type="text" placeholder="Имя">
+          <input class="popup__item popup__item_profile_job" name="job" type="text" placeholder="О себе">
+        </fieldset>
+        <button class="popup__button" type="submit">Сохранить</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="popup popup__card">
+    <div class="popup__container">
+      <button class="popup__close popup__card_close" type="button" aria-label="Закрыть окно добавления карточки"></button>
+      <h2 class="popup__heading">Новое место</h2>
+      <form name="card-form">
+        <fieldset class="popup__item-container">
+          <input class="popup__item popup__item_card_name" name="name" type="text" placeholder="Название">
+          <input class="popup__item popup__item_card_link" name="link" type="text" placeholder="Ссылка на картинку">
+        </fieldset>
+        <button class="popup__button" type="submit">Создать</button>
       </form>
     </div>
   </div>
