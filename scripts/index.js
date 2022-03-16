@@ -1,36 +1,3 @@
-// Находим форму изменения профиля в DOM
-const profileForm = document.querySelector('.popup__profile');
-
-// Находим поля формы профиля в DOM
-const profileNameInput = profileForm.querySelector('.popup__item_profile_name');
-const profileJobInput = profileForm.querySelector('.popup__item_profile_job');
-
-// Находим форму добавления карточки в DOM
-const cardForm = document.querySelector('.popup__card');
-
-// Находим поля формы карточки в DOM
-const cardNameInput = cardForm.querySelector('.popup__item_card_name');
-const cardLinkInput = cardForm.querySelector('.popup__item_card_link');
-
-// Находим кнопку изменить данные профиля в DOM
-const profileEditButton = document.querySelector('.profile__edit');
-
-// Находим кнопку добавить карточку в DOM
-const cardAddButton = document.querySelector('.profile__card-add');
-
-// Находим кнопку закрыть форму в DOM
-const profileCloseButton = profileForm.querySelector('.popup__profile_close');
-
-// Находим кнопку закрыть форму в DOM
-const cardCloseButton = cardForm.querySelector('.popup__card_close');
-
-// Находим элементы, куда должны быть вставлены значения полей
-const profileName = document.querySelector('.profile__name');
-const profileJob = document.querySelector('.profile__job');
-
-// Находим блок с карточками
-const cardContainer = document.querySelector('.cards');
-
 const initialCards = [
   {
     name: 'Карачаевск',
@@ -64,66 +31,114 @@ const initialCards = [
   }
 ];
 
+
+/*  Изменение профиля  */
+
+
+// Находим кнопку изменить данные профиля в DOM
+const profileEditButton = document.querySelector('.profile__edit');
+
+// Находим форму изменения профиля в DOM
+const popupProfile = document.querySelector('.popup_profile');
+
+// Находим поля формы изменения данных профиля в DOM
+const profileNameInput = popupProfile.querySelector('.popup__item_profile_name');
+const profileJobInput = popupProfile.querySelector('.popup__item_profile_job');
+
+// Находим элементы, куда должны быть вставлены значения полей из формы
+const profileName = document.querySelector('.profile__name');
+const profileJob = document.querySelector('.profile__job');
+
+// Прикрепляем обработчик к кнопке изменения профиля
+profileEditButton.addEventListener('click', (event) => {
+  profileNameInput.value = profileName.textContent;
+  profileJobInput.value = profileJob.textContent;
+  openPopup(popupProfile);
+  // Вешаем событие click на кнопку закрытия popup
+  popupProfile.querySelector('.popup__close').addEventListener('click', closePopup);
+});
+
 // Обработчик «отправки» формы, хотя пока она никуда отправляться не будет
-function profileFormSubmitHandler (event) {
+function profileFormSubmitHandler(event) {
   event.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
   // Вставляем новые значения с помощью textContent
   profileName.textContent = profileNameInput.value;
   profileJob.textContent = profileJobInput.value;
-  closeProfilePopup();
+  closePopup(event);
 }
+
+// Прикрепляем обработчик к форме: он будет следить за событием “submit” - «отправка»
+popupProfile.addEventListener('submit', profileFormSubmitHandler);
+
+// Функция добавляет модификатор opened
+function openPopup(popup) {
+  popup.classList.add('popup_opened');
+}
+
+// Функция удаляет модификатор opened
+function closePopup(event) {
+  event.currentTarget.closest('.popup').classList.remove('popup_opened');
+}
+
+
+/*  Добавление карточки  */
+
+
+// Находим кнопку добавить карточку в DOM
+const cardAddButton = document.querySelector('.profile__card-add');
+
+// Находим форму добавления карточки в DOM
+const popupCard = document.querySelector('.popup_card');
+
+// Находим поля формы карточки в DOM
+const cardNameInput = popupCard.querySelector('.popup__item_card_name');
+const cardLinkInput = popupCard.querySelector('.popup__item_card_link');
+
+// Прикрепляем обработчик к кнопке добавить карточку
+cardAddButton.addEventListener('click', () => {
+  openPopup(popupCard);
+  // Вешаем событие click на кнопку закрытия popup
+  popupCard.querySelector('.popup__close').addEventListener('click', closePopup);
+});
 
 // Обработчик «отправки» формы, хотя пока она никуда отправляться не будет
-function cardFormSubmitHandler (event) {
+function cardFormSubmitHandler(event) {
   event.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
-
-  addCard(cardNameInput.value, cardLinkInput.value, cardNameInput.value);
+  addCard(cardNameInput.value, cardLinkInput.value);
   cardNameInput.value = '';
   cardLinkInput.value = '';
-  closeCardPopup();
+  closePopup(event);
 }
 
-// Функция добавляет модификатор opened
-function openProfilePopup(event) {
-  profileNameInput.value = profileName.textContent;
-  profileJobInput.value = profileJob.textContent;
-  profileForm.classList.add('popup_opened');
-}
+// Прикрепляем обработчик к форме: он будет следить за событием “submit” - «отправка»
+popupCard.addEventListener('submit', cardFormSubmitHandler);
 
-// Функция добавляет модификатор opened
-function openCardPopup() {
-  cardForm.classList.add('popup_opened');
-}
 
-// Функция удаляет модификатор opened
-function closeProfilePopup(event) {
-  profileForm.classList.remove('popup_opened');
-}
+/*  Заполнение контейнера карточками  */
 
-// Функция удаляет модификатор opened
-function closeCardPopup() {
-  cardForm.classList.remove('popup_opened');
-}
+
+// Находим блок с карточками
+const cardContainer = document.querySelector('.cards');
 
 // Функция добавляет блок с карточкой
-function addCard(cardTitle, imageSrc, imageDescription) {
+function addCard(cardTitle, imageSrc) {
   const cardTemplate = document.querySelector('#card-template').content;
+  // Клонируем template
   const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
-
+  // Заполняем template данными
   cardElement.querySelector('.card__title').textContent = cardTitle;
   cardElement.querySelector('.card__image').src = imageSrc;
-  cardElement.querySelector('.card__image').alt = imageDescription;
-
+  cardElement.querySelector('.card__image').alt = cardTitle;
+  // Добавляем в начало контейнера с карточками
   cardContainer.prepend(cardElement);
 }
 
 // Функция читает массив и выводит карточки в DOM
 function renderCards() {
   initialCards.forEach((item) => {
-    addCard(item.name, item.link, item.description);
+    addCard(item.name, item.link);
   });
 }
-
 renderCards();
 
 // Функция определяет совершен ли клик по области popup
@@ -132,18 +147,5 @@ renderCards();
 //     closePopup();
 //   }
 // }
-
-// Прикрепляем обработчик к форме: он будет следить за событием “submit” - «отправка»
-profileForm.addEventListener('submit', profileFormSubmitHandler);
-// Прикрепляем обработчик к кнопке изменения профиля
-profileEditButton.addEventListener('click', openProfilePopup);
-// Прикрепляем обработчик к кнопке Закрыть popup
-profileCloseButton.addEventListener('click', closeProfilePopup);
-// Прикрепляем обработчик к форме: он будет следить за событием “submit” - «отправка»
-cardForm.addEventListener('submit', cardFormSubmitHandler);
-// Прикрепляем обработчик к кнопке добавить карточку
-cardAddButton.addEventListener('click', openCardPopup);
-// Прикрепляем обработчик к кнопке Закрыть popup
-cardCloseButton.addEventListener('click', closeCardPopup);
 // Прикрепляем обработчик события click на popup
 // formElement.addEventListener('click', withinPopup);
