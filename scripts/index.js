@@ -129,31 +129,21 @@ function addCard(cardTitle, imageSrc) {
   cardElement.querySelector('.card__title').textContent = cardTitle;
   cardElement.querySelector('.card__image').src = imageSrc;
   cardElement.querySelector('.card__image').alt = cardTitle;
+  cardElement.querySelector('.card__like').addEventListener('click', likeCard);
+  cardElement.querySelector('.card__remove').addEventListener('click', removeCard);
   // Добавляем в начало контейнера с карточками
   cardContainer.prepend(cardElement);
 }
 
 // Функция удаления карточки
-function removeCard(card) {
-  card.remove();
+function removeCard(event) {
+  event.target.closest('.card').remove();
 }
 
 // Функция лайка карточки
 function likeCard(event) {
   event.target.classList.toggle('card__like_active');
 }
-
-// Слушатель события click по элементам страницы
-document.body.addEventListener('click', (event) => {
-  const card = event.target.closest('.card');
-  if (!card) return;
-  if (event.target.classList.contains('card__like')) {
-    likeCard(event);
-  }
-  if (event.target.classList.contains('card__remove')) {
-    removeCard(card);
-  }
-})
 
 // Открытие картинки в попапе
 // При вызове функции обратного вызова слушателя, который сработает при нажатии на картинку,
@@ -166,6 +156,7 @@ function renderCards() {
     addCard(item.name, item.link);
   });
 }
+
 renderCards();
 
 // Функция определяет совершен ли клик по области popup
