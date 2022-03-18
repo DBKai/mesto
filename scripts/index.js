@@ -125,13 +125,40 @@ function addCard(cardTitle, imageSrc) {
   const cardTemplate = document.querySelector('#card-template').content;
   // Клонируем template
   const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
-  // Заполняем template данными
+  // Заполняем данными
   cardElement.querySelector('.card__title').textContent = cardTitle;
   cardElement.querySelector('.card__image').src = imageSrc;
   cardElement.querySelector('.card__image').alt = cardTitle;
   // Добавляем в начало контейнера с карточками
   cardContainer.prepend(cardElement);
 }
+
+// Функция удаления карточки
+function removeCard(card) {
+  card.remove();
+}
+
+// Функция лайка карточки
+function likeCard(event) {
+  event.target.classList.toggle('card__like_active');
+}
+
+// Слушатель события click по элементам страницы
+document.body.addEventListener('click', (event) => {
+  const card = event.target.closest('.card');
+  if (!card) return;
+  if (event.target.classList.contains('card__like')) {
+    likeCard(event);
+  }
+  if (event.target.classList.contains('card__remove')) {
+    removeCard(card);
+  }
+})
+
+// Открытие картинки в попапе
+// При вызове функции обратного вызова слушателя, который сработает при нажатии на картинку,
+// передайте в нее (в функцию) данные самой карточки. Внутри этой функции вам надо данные этой карточки
+// положить в нужные места в разметке вашего попапа. После этого открыть попап.
 
 // Функция читает массив и выводит карточки в DOM
 function renderCards() {
