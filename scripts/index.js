@@ -174,10 +174,11 @@ function setSubmitButtonState(form) {
   }
 }
 
-function enableValidation(config) {
-  const form = document.querySelector(config.form);
-
-  form.addEventListener("sub")
+// Функция определяет совершен ли клик по области popup
+function withinPopup(event) {
+  if (event.target === event.currentTarget) {
+    closePopup(event.currentTarget);
+  }
 }
 
 renderCards();
@@ -208,3 +209,6 @@ popupProfileClose.addEventListener('click', () => closePopup(popupProfile));
 popupCardClose.addEventListener('click', () => closePopup(popupCard));
 // Вешаем событие click на кнопку закрытия popup
 popupImageViewClose.addEventListener('click', () => closePopup(imageView));
+// Прикрепляем обработчик события click на popup
+popupProfile.addEventListener('click', withinPopup);
+popupCard.addEventListener('click', withinPopup);
