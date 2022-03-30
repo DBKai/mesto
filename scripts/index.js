@@ -29,9 +29,12 @@ const cardTemplate = document.querySelector('#card-template').content;
 // Находим попап формы добавления карточки в DOM
 const popupCard = document.querySelector('.popup_type_card');
 
+// Находим форму добавления карточки в DOM
+const cardForm = document.querySelector('form[name="card-form"]');
+
 // Находим поля формы карточки в DOM
-const cardNameInput = popupCard.querySelector('.popup__item_card_name');
-const cardLinkInput = popupCard.querySelector('.popup__item_card_link');
+const cardNameInput = popupCard.querySelector('#card-name');
+const cardLinkInput = popupCard.querySelector('#card-link');
 
 // Находим форму добавления просмотра полного изображения в DOM
 const imageView = document.querySelector('.popup_type_image-view');
@@ -42,15 +45,6 @@ const popupImageViewClose = imageView.querySelector('.popup__close');
 
 const popupCardClose =  popupCard.querySelector('.popup__close');
 
-// Обработчик «отправки» формы, хотя пока она никуда отправляться не будет
-function profileFormSubmitHandler(event) {
-  event.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
-  // Вставляем новые значения с помощью textContent
-  profileName.textContent = profileNameInput.value;
-  profileJob.textContent = profileJobInput.value;
-  closePopup(popupProfile);
-}
-
 // Функция добавляет модификатор opened
 function openPopup(popup) {
   popup.classList.add('popup_opened');
@@ -59,15 +53,6 @@ function openPopup(popup) {
 // Функция удаляет модификатор opened
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
-}
-
-// Обработчик «отправки» формы, хотя пока она никуда отправляться не будет
-function cardFormSubmitHandler(event) {
-  event.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
-  addCard(generateCard(cardNameInput.value, cardLinkInput.value));
-  cardNameInput.value = '';
-  cardLinkInput.value = '';
-  closePopup(popupCard);
 }
 
 // Функция добавляет блок с карточкой
@@ -116,17 +101,27 @@ function renderCards() {
 }
 
 // Обработчик отправки формы
-function formSubmitHandler(event) {
+function profileFormSubmitHandler(event) {
   event.preventDefault();
 
   const form = event.currentTarget;
-  const isValid = form.checkValidity();
 
-  if (isValid) {
-    console.log('Форма валидна!');
-  } else {
-    console.log('Форма не валидна!');
-  }
+  // Вставляем новые значения с помощью textContent
+  profileName.textContent = profileNameInput.value;
+  profileJob.textContent = profileJobInput.value;
+  form.reset();
+  closePopup(popupProfile);
+}
+
+// Обработчик отправки формы
+function cardFormSubmitHandler(event) {
+  event.preventDefault();
+
+  const form = event.currentTarget;
+  addCard(generateCard(cardNameInput.value, cardLinkInput.value));
+  form.reset();
+  setSubmitButtonState(form);
+  closePopup(popupCard);
 }
 
 // Обработчик событий нажатия клавиш в Input
@@ -179,6 +174,12 @@ function setSubmitButtonState(form) {
   }
 }
 
+function enableValidation(config) {
+  const form = document.querySelector(config.form);
+
+  form.addEventListener("sub")
+}
+
 renderCards();
 
 // Прикрепляем обработчик к кнопке изменения профиля
@@ -193,17 +194,17 @@ cardAddButton.addEventListener('click', () => {
   openPopup(popupCard);
 });
 
-// Прикрепляем обработчик к форме: он будет следить за событием “submit” - «отправка»
-popupProfile.addEventListener('submit', profileFormSubmitHandler);
+// Прикрепляем обработчик отправки формы
+profileForm.addEventListener('submit', profileFormSubmitHandler);
+// Прикрепляем обработчик нажатия на кнопки в input
+profileForm.addEventListener('input', formInputHandler);
+// Прикрепляем обработчик отправки формы
+cardForm.addEventListener('submit', cardFormSubmitHandler);
+// Прикрепляем обработчик нажатия на кнопки в input
+cardForm.addEventListener('input', formInputHandler);
 // Вешаем событие click на кнопку закрытия popup
 popupProfileClose.addEventListener('click', () => closePopup(popupProfile));
-// Прикрепляем обработчик к форме: он будет следить за событием “submit” - «отправка»
-popupCard.addEventListener('submit', cardFormSubmitHandler);
 // Вешаем событие click на кнопку закрытия popup
 popupCardClose.addEventListener('click', () => closePopup(popupCard));
 // Вешаем событие click на кнопку закрытия popup
 popupImageViewClose.addEventListener('click', () => closePopup(imageView));
-// Прикрепляем обработчик отправки формы
-profileForm.addEventListener('submit', formSubmitHandler);
-// Прикрепляем обработчик нажатия на кнопки в input
-profileForm.addEventListener('input', formInputHandler);
