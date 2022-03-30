@@ -1,6 +1,6 @@
 .popup__item {
   width: 100%;
-  margin-bottom: 26px;
+  margin-top: 5px;
   padding: 4px 0 8px;
   box-sizing: border-box;
   border: 0;
@@ -10,6 +10,6 @@
   line-height: 17px;
 }
 
-.popup__item:last-child {
-  margin-bottom: 0;
+.popup__item:first-child {
+  margin-top: 0;
 }

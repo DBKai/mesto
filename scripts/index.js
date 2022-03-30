@@ -1,14 +1,17 @@
 // Находим кнопку изменить данные профиля в DOM
 const profileEditButton = document.querySelector('.profile__edit');
 
-// Находим форму изменения профиля в DOM
+// Находим попап формы изменения профиля в DOM
 const popupProfile = document.querySelector('.popup_type_profile');
+
+// Находим форму изменения профиля в DOM
+const profileForm = document.querySelector('form[name="profile-form"]');
 
 const popupProfileClose = popupProfile.querySelector('.popup__close');
 
 // Находим поля формы изменения данных профиля в DOM
-const profileNameInput = popupProfile.querySelector('.popup__item_profile_name');
-const profileJobInput = popupProfile.querySelector('.popup__item_profile_job');
+const profileNameInput = popupProfile.querySelector('#profile-name');
+const profileJobInput = popupProfile.querySelector('#profile-job');
 
 // Находим элементы, куда должны быть вставлены значения полей из формы
 const profileName = document.querySelector('.profile__name');
@@ -23,7 +26,7 @@ const cardAddButton = document.querySelector('.profile__card-add');
 // Находим шаблон карточки
 const cardTemplate = document.querySelector('#card-template').content;
 
-// Находим форму добавления карточки в DOM
+// Находим попап формы добавления карточки в DOM
 const popupCard = document.querySelector('.popup_type_card');
 
 // Находим поля формы карточки в DOM
@@ -112,6 +115,70 @@ function renderCards() {
   });
 }
 
+// Обработчик отправки формы
+function formSubmitHandler(event) {
+  event.preventDefault();
+
+  const form = event.currentTarget;
+  const isValid = form.checkValidity();
+
+  if (isValid) {
+    console.log('Форма валидна!');
+  } else {
+    console.log('Форма не валидна!');
+  }
+}
+
+// Обработчик событий нажатия клавиш в Input
+function formInputHandler(event) {
+  const form = event.currentTarget;
+  const input = event.target;
+
+  setCustomError(input);
+  setFieldError(form, input);
+  setSubmitButtonState(form);
+}
+
+// Функция присваивает текст ошибки
+function setCustomError(input) {
+  const validity = input.validity;
+  input.setCustomValidity('');
+
+  if (validity.valueMissing) {
+    input.setCustomValidity('Вы пропустили это поле.');
+  }
+
+  if (validity.tooShort || validity.tooLong) {
+    const currentLength = input.value.length;
+    const minLength = input.getAttribute('minlength');
+    input.setCustomValidity(`Минимальное количество символов: ${minLength}. Длина текста сейчас: ${currentLength}.`);
+  }
+
+  if (validity.typeMismatch) {
+    input.setCustomValidity(`Введите адрес сайта.`);
+  }
+}
+
+// Функция показывает текст ошибки пользователю
+function setFieldError(form, input) {
+  const span = form.querySelector(`#${input.id}-error`);
+  span.textContent = input.validationMessage;
+}
+
+// Функция делает неактивной кнопку у невалидной формы
+function setSubmitButtonState(form) {
+  const button = form.querySelector('.popup__button');
+  const isValid = form.checkValidity();
+
+  if (isValid) {
+    button.classList.remove('popup__button_inactive');
+    button.disabled = false;
+  } else {
+    button.classList.add('popup__button_inactive');
+    button.disabled = true;
+  }
+}
+
 renderCards();
 
 // Прикрепляем обработчик к кнопке изменения профиля
@@ -136,3 +203,7 @@ popupCard.addEventListener('submit', cardFormSubmitHandler);
 popupCardClose.addEventListener('click', () => closePopup(popupCard));
 // Вешаем событие click на кнопку закрытия popup
 popupImageViewClose.addEventListener('click', () => closePopup(imageView));
+// Прикрепляем обработчик отправки формы
+profileForm.addEventListener('submit', formSubmitHandler);
+// Прикрепляем обработчик нажатия на кнопки в input
+profileForm.addEventListener('input', formInputHandler);
