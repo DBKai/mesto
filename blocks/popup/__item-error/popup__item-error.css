@@ -7,4 +7,6 @@
   color: #f00;
   box-sizing: border-box;
   display: block;
+  opacity: 0;
+  transition: opacity 0.3s linear;
 }

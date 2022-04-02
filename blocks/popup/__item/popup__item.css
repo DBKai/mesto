@@ -8,6 +8,7 @@
   background-color: transparent;
   font-size: 14px;
   line-height: 17px;
+  outline: none;
 }
 
 .popup__item:first-child {

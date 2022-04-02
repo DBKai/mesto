@@ -100,78 +100,14 @@ function renderCards() {
   });
 }
 
-// Обработчик отправки формы
-function profileFormSubmitHandler(event) {
-  event.preventDefault();
-
-  const form = event.currentTarget;
-
-  // Вставляем новые значения с помощью textContent
-  profileName.textContent = profileNameInput.value;
-  profileJob.textContent = profileJobInput.value;
-  form.reset();
-  closePopup(popupProfile);
+function setProfile(name, job) {
+  profileName.textContent = name;
+  profileJob.textContent = job;
 }
 
-// Обработчик отправки формы
-function cardFormSubmitHandler(event) {
-  event.preventDefault();
-
-  const form = event.currentTarget;
-  addCard(generateCard(cardNameInput.value, cardLinkInput.value));
-  form.reset();
-  setSubmitButtonState(form);
-  closePopup(popupCard);
-}
-
-// Обработчик событий нажатия клавиш в Input
-function formInputHandler(event) {
-  const form = event.currentTarget;
-  const input = event.target;
-
-  setCustomError(input);
-  setFieldError(form, input);
-  setSubmitButtonState(form);
-}
-
-// Функция присваивает текст ошибки
-function setCustomError(input) {
-  const validity = input.validity;
-  input.setCustomValidity('');
-
-  if (validity.valueMissing) {
-    input.setCustomValidity('Вы пропустили это поле.');
-  }
-
-  if (validity.tooShort || validity.tooLong) {
-    const currentLength = input.value.length;
-    const minLength = input.getAttribute('minlength');
-    input.setCustomValidity(`Минимальное количество символов: ${minLength}. Длина текста сейчас: ${currentLength}.`);
-  }
-
-  if (validity.typeMismatch) {
-    input.setCustomValidity(`Введите адрес сайта.`);
-  }
-}
-
-// Функция показывает текст ошибки пользователю
-function setFieldError(form, input) {
-  const span = form.querySelector(`#${input.id}-error`);
-  span.textContent = input.validationMessage;
-}
-
-// Функция делает неактивной кнопку у невалидной формы
-function setSubmitButtonState(form) {
-  const button = form.querySelector('.popup__button');
-  const isValid = form.checkValidity();
-
-  if (isValid) {
-    button.classList.remove('popup__button_inactive');
-    button.disabled = false;
-  } else {
-    button.classList.add('popup__button_inactive');
-    button.disabled = true;
-  }
+function fillProfile(name, job) {
+  profileNameInput.value = name;
+  profileJobInput.value = job;
 }
 
 // Функция определяет совершен ли клик по области popup
@@ -183,26 +119,46 @@ function withinPopup(event) {
 
 renderCards();
 
-// Прикрепляем обработчик к кнопке изменения профиля
-profileEditButton.addEventListener('click', (event) => {
-  profileNameInput.value = profileName.textContent;
-  profileJobInput.value = profileJob.textContent;
+function openProfile() {
+  fillProfile(profileName.textContent, profileJob.textContent);
   openPopup(popupProfile);
-});
+}
 
-// Прикрепляем обработчик к кнопке добавить карточку
-cardAddButton.addEventListener('click', () => {
+function openAddCardForm() {
   openPopup(popupCard);
-});
+}
+
+function disableButton(form) {
+  const submitButton = form.querySelector('.popup__button');
+  submitButton.disabled = true;
+  submitButton.classList.add('popup__button_inactive');
+}
+
+// Обработчик отправки формы
+function profileFormSubmitHandler(event) {
+  const form = event.currentTarget;
+  setProfile(profileNameInput.value, profileJobInput.value)
+  form.reset();
+  closePopup(popupProfile);
+}
+
+// Обработчик отправки формы
+function cardFormSubmitHandler(event) {
+  const form = event.currentTarget;
+  addCard(generateCard(cardNameInput.value, cardLinkInput.value));
+  form.reset();
+  disableButton(form);
+  closePopup(popupCard);
+}
 
 // Прикрепляем обработчик отправки формы
 profileForm.addEventListener('submit', profileFormSubmitHandler);
-// Прикрепляем обработчик нажатия на кнопки в input
-profileForm.addEventListener('input', formInputHandler);
 // Прикрепляем обработчик отправки формы
 cardForm.addEventListener('submit', cardFormSubmitHandler);
-// Прикрепляем обработчик нажатия на кнопки в input
-cardForm.addEventListener('input', formInputHandler);
+// Прикрепляем обработчик к кнопке изменения профиля
+profileEditButton.addEventListener('click', openProfile);
+// Прикрепляем обработчик к кнопке добавить карточку
+cardAddButton.addEventListener('click', openAddCardForm);
 // Вешаем событие click на кнопку закрытия popup
 popupProfileClose.addEventListener('click', () => closePopup(popupProfile));
 // Вешаем событие click на кнопку закрытия popup
@@ -212,3 +168,4 @@ popupImageViewClose.addEventListener('click', () => closePopup(imageView));
 // Прикрепляем обработчик события click на popup
 popupProfile.addEventListener('click', withinPopup);
 popupCard.addEventListener('click', withinPopup);
+imageView.addEventListener('click', withinPopup);
