@@ -48,11 +48,13 @@ const popupCardClose =  popupCard.querySelector('.popup__close');
 // Функция добавляет модификатор opened
 function openPopup(popup) {
   popup.classList.add('popup_opened');
+  document.addEventListener('keyup', escUpHandler);
 }
 
 // Функция удаляет модификатор opened
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
+  document.removeEventListener('keyup', escUpHandler);
 }
 
 // Функция добавляет блок с карточкой
@@ -149,6 +151,15 @@ function cardFormSubmitHandler(event) {
   form.reset();
   disableButton(form);
   closePopup(popupCard);
+}
+
+// Обработчик нажатия клавиши ESC
+function escUpHandler(event) {
+  event.preventDefault();
+  const activePopup = document.querySelector('.popup_opened');
+  if (event.key === "Escape") {
+    closePopup(activePopup);
+  }
 }
 
 // Прикрепляем обработчик отправки формы
