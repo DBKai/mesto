@@ -7,8 +7,6 @@ const popupProfile = document.querySelector('.popup_type_profile');
 // Находим форму изменения профиля в DOM
 const profileForm = document.querySelector('form[name="profile-form"]');
 
-const popupProfileClose = popupProfile.querySelector('.popup__close');
-
 // Находим поля формы изменения данных профиля в DOM
 const profileNameInput = popupProfile.querySelector('#profile-name');
 const profileJobInput = popupProfile.querySelector('#profile-job');
@@ -41,9 +39,6 @@ const imageView = document.querySelector('.popup_type_image-view');
 
 const cardImage = imageView.querySelector('.popup__image');
 const cardCaption = imageView.querySelector('.popup__caption');
-const popupImageViewClose = imageView.querySelector('.popup__close');
-
-const popupCardClose =  popupCard.querySelector('.popup__close');
 
 // Функция добавляет модификатор opened
 function openPopup(popup) {
@@ -114,7 +109,7 @@ function fillProfile(name, job) {
 
 // Функция определяет совершен ли клик по области popup
 function withinPopup(event) {
-  if (event.target === event.currentTarget) {
+  if (event.target === event.currentTarget || event.target.classList.contains('popup__close')) {
     closePopup(event.currentTarget);
   }
 }
@@ -140,24 +135,24 @@ function disableButton(form) {
 function profileFormSubmitHandler(event) {
   const form = event.currentTarget;
   setProfile(profileNameInput.value, profileJobInput.value)
-  form.reset();
   closePopup(popupProfile);
+  form.reset();
 }
 
 // Обработчик отправки формы
 function cardFormSubmitHandler(event) {
   const form = event.currentTarget;
   addCard(generateCard(cardNameInput.value, cardLinkInput.value));
-  form.reset();
-  disableButton(form);
   closePopup(popupCard);
+  disableButton(form);
+  form.reset();
 }
 
 // Обработчик нажатия клавиши ESC
 function escUpHandler(event) {
   event.preventDefault();
-  const activePopup = document.querySelector('.popup_opened');
   if (event.key === "Escape") {
+    const activePopup = document.querySelector('.popup_opened');
     closePopup(activePopup);
   }
 }
@@ -170,12 +165,6 @@ cardForm.addEventListener('submit', cardFormSubmitHandler);
 profileEditButton.addEventListener('click', openProfile);
 // Прикрепляем обработчик к кнопке добавить карточку
 cardAddButton.addEventListener('click', openAddCardForm);
-// Вешаем событие click на кнопку закрытия popup
-popupProfileClose.addEventListener('click', () => closePopup(popupProfile));
-// Вешаем событие click на кнопку закрытия popup
-popupCardClose.addEventListener('click', () => closePopup(popupCard));
-// Вешаем событие click на кнопку закрытия popup
-popupImageViewClose.addEventListener('click', () => closePopup(imageView));
 // Прикрепляем обработчик события click на popup
 popupProfile.addEventListener('click', withinPopup);
 popupCard.addEventListener('click', withinPopup);
