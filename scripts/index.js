@@ -1,3 +1,6 @@
+import { initialCards } from '../scripts/cards.js';
+import Card from "../scripts/Card.js";
+
 // Находим кнопку изменить данные профиля в DOM
 const profileEditButton = document.querySelector('.profile__edit');
 
@@ -37,9 +40,6 @@ const cardLinkInput = popupCard.querySelector('#card-link');
 // Находим форму добавления просмотра полного изображения в DOM
 const imageView = document.querySelector('.popup_type_image-view');
 
-const cardImage = imageView.querySelector('.popup__image');
-const cardCaption = imageView.querySelector('.popup__caption');
-
 // Функция добавляет модификатор opened
 function openPopup(popup) {
   popup.classList.add('popup_opened');
@@ -52,49 +52,28 @@ function closePopup(popup) {
   document.removeEventListener('keyup', escUpHandler);
 }
 
-// Функция добавляет блок с карточкой
-function generateCard(cardTitle, imageSrc) {
-  // Клонируем template
-  const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
-  const cardImage = cardElement.querySelector('.card__image');
-  // Заполняем данными
-  cardElement.querySelector('.card__title').textContent = cardTitle;
-  cardImage.src = imageSrc;
-  cardImage.alt = cardTitle;
-  cardElement.querySelector('.card__like').addEventListener('click', likeCard);
-  cardElement.querySelector('.card__remove').addEventListener('click', removeCard);
-  cardImage.addEventListener('click', () => viewCard(cardTitle, imageSrc));
-  return cardElement;
-}
-
-function addCard(generateCard) {
-  // Добавляем в начало контейнера с карточками
-  cardContainer.prepend(generateCard);
-}
-
-// Функция удаления карточки
-function removeCard(event) {
-  event.target.closest('.card').remove();
-}
-
-// Функция лайка карточки
-function likeCard(event) {
-  event.target.classList.toggle('card__like_active');
-}
-
-// Функция просмотра и редактирования карточки
-function viewCard(cardTitle, imageSrc) {
-  cardCaption.textContent = cardTitle;
-  cardImage.src = imageSrc;
-  cardImage.alt = cardTitle;
-  openPopup(imageView);
-}
-
 // Функция читает массив и выводит карточки в DOM
 function renderCards() {
   initialCards.forEach((item) => {
-    addCard(generateCard(item.name, item.link));
+    const card = new Card(item, cardTemplate, viewCard);
+    addCard(card.generateCard());
   });
+}
+
+function addCard(card) {
+  // Добавляем в начало контейнера с карточками
+  cardContainer.prepend(card);
+}
+
+function viewCard(name, link) {
+  const cardImage = imageView.querySelector('.popup__image');
+  const cardCaption = imageView.querySelector('.popup__caption');
+
+  cardCaption.textContent = name;
+  cardImage.src = link;
+  cardImage.alt = name;
+
+  openPopup(imageView);
 }
 
 function setProfile(name, job) {
@@ -142,7 +121,8 @@ function profileFormSubmitHandler(event) {
 // Обработчик отправки формы
 function cardFormSubmitHandler(event) {
   const form = event.currentTarget;
-  addCard(generateCard(cardNameInput.value, cardLinkInput.value));
+  const card = new Card({ name: cardNameInput.value, link: cardLinkInput.value }, cardTemplate, viewCard);
+  addCard(card.generateCard());
   closePopup(popupCard);
   disableButton(form);
   form.reset();
