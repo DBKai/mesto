@@ -1,4 +1,4 @@
-const initialCards = [
+export const initialCards = [
   {
     name: 'Карачаевск',
     link: './images/kirill-pershin-1088404-unsplash.jpg'
@@ -48,5 +48,3 @@ const initialCards = [
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
-
-export { initialCards };
