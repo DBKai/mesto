@@ -121,22 +121,16 @@ function handleEscKey(event) {
 }
 
 // Обработчик отправки формы
-function profileFormSubmitHandler(event) {
-  const form = event.currentTarget;
+function handleProfileFormSubmit(event) {
   setProfile(profileNameInput.value, profileJobInput.value);
   closePopup(popupProfile);
-  formValidators[profileForm.getAttribute('name')].resetValidation();
-  form.reset();
 }
 
 // Обработчик отправки формы
-function cardFormSubmitHandler(event) {
-  const form = event.currentTarget;
+function handleCardFormSubmit(event) {
   const card = createCard({ name: cardNameInput.value, link: cardLinkInput.value });
   addCard(card);
   closePopup(popupCard);
-  formValidators[cardForm.getAttribute('name')].resetValidation();
-  form.reset();
 }
 
 // Обработчик клика по карточке
@@ -165,9 +159,9 @@ renderCards();
 addPopupCloseListeners();
 
 // Прикрепляем обработчик отправки формы
-profileForm.addEventListener('submit', profileFormSubmitHandler);
+profileForm.addEventListener('submit', handleProfileFormSubmit);
 // Прикрепляем обработчик отправки формы
-cardForm.addEventListener('submit', cardFormSubmitHandler);
+cardForm.addEventListener('submit', handleCardFormSubmit);
 // Прикрепляем обработчик к кнопке изменения профиля
 profileEditButton.addEventListener('click', openProfile);
 // Прикрепляем обработчик к кнопке добавить карточку
