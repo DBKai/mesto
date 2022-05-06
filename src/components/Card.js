@@ -23,8 +23,8 @@ export default class Card {
     event.target.classList.toggle('card__like_active');
   }
 
-  _removeCard = (event) => {
-    event.target.closest('.card').remove();
+  _removeCard = () => {
+    this._cardElement.remove();
   }
 
   generateCard = () => {
