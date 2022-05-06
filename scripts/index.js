@@ -1,41 +1,29 @@
-import { initialCards as cards } from '../scripts/cards.js';
-import Card from '../scripts/Card.js';
-import FormValidator from '../scripts/FormValidator.js';
-import config from '../scripts/constants.js';
+import { initialCards as cards } from './cards.js';
+import Card from './Card.js';
+import FormValidator from './FormValidator.js';
+import config from './constants.js';
 import Section from './Section.js';
 import PopupWithImage from './PopupWithImage.js';
 import PopupWithForm from './PopupWithForm.js';
+import UserInfo from './UserInfo.js';
 
 // Находим кнопку изменить данные профиля в DOM
 const profileEditButton = document.querySelector('.profile__edit');
-
-// Находим попап формы изменения профиля в DOM
-const popupProfile = document.querySelector('.popup_type_profile');
-
 // Находим форму изменения профиля в DOM
 const profileForm = document.querySelector('form[name="profile-form"]');
-
 // Находим поля формы изменения данных профиля в DOM
-const profileNameInput = popupProfile.querySelector('#profile-name');
-const profileJobInput = popupProfile.querySelector('#profile-job');
-
-// Находим элементы, куда должны быть вставлены значения полей из формы
-const profileName = document.querySelector('.profile__name');
-const profileJob = document.querySelector('.profile__job');
-
+const profileNameInput = document.querySelector('#profile-name');
+const profileJobInput = document.querySelector('#profile-job');
 // Находим кнопку добавить карточку в DOM
 const cardAddButton = document.querySelector('.profile__card-add');
-
 // Находим шаблон карточки
 const cardTemplate = document.querySelector('#card-template').content;
-
 // Находим форму добавления карточки в DOM
 const cardForm = document.querySelector('form[name="card-form"]');
-
 const imageViewPopup = new PopupWithImage('.popup_type_image-view');
 const profilePopup = new PopupWithForm('.popup_type_profile', handleProfileFormSubmit);
 const cardPopup = new PopupWithForm('.popup_type_card', handleCardFormSubmit);
-
+const userInfo = new UserInfo({ nameSelector: '.profile__name', jobSelector: '.profile__job' });
 const formValidators = {};
 
 const enableValidation = (config) => {
@@ -59,43 +47,29 @@ const cardList = new Section(
   '.cards'
 );
 
-function setProfile(name, job) {
-  profileName.textContent = name;
-  profileJob.textContent = job;
-}
-
-function fillProfile(name, job) {
-  profileNameInput.value = name;
-  profileJobInput.value = job;
-}
-
 function openProfile() {
-  profileForm.reset();
-  fillProfile(profileName.textContent, profileJob.textContent);
+  const user = userInfo.getUserInfo();
+  profileNameInput.value = user.name;
+  profileJobInput.value = user.job;
   formValidators[profileForm.getAttribute('name')].resetValidation();
   profilePopup.open();
 }
 
 function openCard() {
-  cardForm.reset();
   formValidators[cardForm.getAttribute('name')].resetValidation();
   cardPopup.open();
 }
 
-// Обработчик отправки формы
 function handleProfileFormSubmit(items) {
-  setProfile(profileNameInput.value, profileJobInput.value);
-  profilePopup.open();
+  userInfo.setUserInfo(items);
 }
 
-// Обработчик отправки формы
 function handleCardFormSubmit(items) {
   const card = new Card(items, cardTemplate, handleCardClick);
   const cardItem = card.generateCard();
   cardList.addItem(cardItem);
 }
 
-// Обработчик клика по карточке
 function handleCardClick(name, link) {
   imageViewPopup.open(name, link);
 }
