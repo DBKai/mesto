@@ -2,6 +2,7 @@ import { initialCards as cards } from '../scripts/cards.js';
 import Card from '../scripts/Card.js';
 import FormValidator from '../scripts/FormValidator.js';
 import config from '../scripts/constants.js';
+import Section from './Section.js';
 
 // Находим кнопку изменить данные профиля в DOM
 const profileEditButton = document.querySelector('.profile__edit');
@@ -20,9 +21,6 @@ const profileJobInput = popupProfile.querySelector('#profile-job');
 const profileName = document.querySelector('.profile__name');
 const profileJob = document.querySelector('.profile__job');
 
-// Находим блок с карточками
-const cardContainer = document.querySelector('.cards');
-
 // Находим кнопку добавить карточку в DOM
 const cardAddButton = document.querySelector('.profile__card-add');
 
@@ -34,10 +32,6 @@ const popupCard = document.querySelector('.popup_type_card');
 
 // Находим форму добавления карточки в DOM
 const cardForm = document.querySelector('form[name="card-form"]');
-
-// Находим поля формы карточки в DOM
-const cardNameInput = popupCard.querySelector('#card-name');
-const cardLinkInput = popupCard.querySelector('#card-link');
 
 // Находим форму добавления просмотра полного изображения в DOM
 const imageView = document.querySelector('.popup_type_image-view');
@@ -57,24 +51,16 @@ const enableValidation = (config) => {
   });
 };
 
-function createCard(item) {
-  const card = new Card(item, cardTemplate, handleCardClick);
-  const cardItem = card.generateCard();
-  return cardItem;
-}
-
-function addCard(card) {
-  // Добавляем в начало контейнера с карточками
-  cardContainer.prepend(card);
-}
-
-// Функция читает массив и выводит карточки в DOM
-function renderCards() {
-  cards.forEach((item) => {
-    const card = createCard(item);
-    addCard(card);
-  });
-}
+const cardList = new Section(
+  { items: cards,
+    renderer: (item) => {
+      const card = new Card(item, cardTemplate, handleCardClick);
+      const cardElement = card.generateCard();
+      cardList.addItem(cardElement);
+    }
+  },
+  '.cards'
+);
 
 function setProfile(name, job) {
   profileName.textContent = name;
@@ -127,10 +113,10 @@ function handleProfileFormSubmit(event) {
 }
 
 // Обработчик отправки формы
-function handleCardFormSubmit(event) {
-  const card = createCard({ name: cardNameInput.value, link: cardLinkInput.value });
-  addCard(card);
-  closePopup(popupCard);
+function handleCardFormSubmit(items) {
+  const card = new Card(items, cardTemplate, handleCardClick);
+  const cardItem = card.generateCard();
+  cardList.addItem(cardItem);
 }
 
 // Обработчик клика по карточке
@@ -155,7 +141,7 @@ function addPopupCloseListeners() {
 }
 
 enableValidation(config);
-renderCards();
+cardList.renderItems();
 addPopupCloseListeners();
 
 // Прикрепляем обработчик отправки формы
