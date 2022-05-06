@@ -1,27 +1,31 @@
+import karachaevskImage from '../images/kirill-pershin-1088404-unsplash.jpg';
+import elbrusImage from '../images/kirill-pershin-1404681-unsplash.jpg';
+import dombaiImage from '../images/kirill-pershin-1556355-unsplash.jpg';
+
 export const initialCards = [
   {
     name: 'Карачаевск',
-    link: './images/kirill-pershin-1088404-unsplash.jpg'
+    link: karachaevskImage
   },
   {
     name: 'Гора Эльбрус',
-    link: './images/kirill-pershin-1404681-unsplash.jpg'
+    link: elbrusImage
   },
   {
     name: 'Домбай',
-    link: './images/kirill-pershin-1556355-unsplash.jpg'
+    link: dombaiImage
   },
   {
     name: 'Гора Эльбрус',
-    link: './images/kirill-pershin-1404681-unsplash.jpg'
+    link: elbrusImage
   },
   {
     name: 'Домбай',
-    link: './images/kirill-pershin-1556355-unsplash.jpg'
+    link: dombaiImage
   },
   {
     name: 'Карачаево-Черкессия',
-    link: './images/kirill-pershin-1088404-unsplash.jpg'
+    link: karachaevskImage
   },
   {
     name: 'Архыз',
