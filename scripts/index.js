@@ -3,6 +3,7 @@ import Card from '../scripts/Card.js';
 import FormValidator from '../scripts/FormValidator.js';
 import config from '../scripts/constants.js';
 import Section from './Section.js';
+import PopupWithImage from './PopupWithImage.js';
 
 // Находим кнопку изменить данные профиля в DOM
 const profileEditButton = document.querySelector('.profile__edit');
@@ -33,11 +34,7 @@ const popupCard = document.querySelector('.popup_type_card');
 // Находим форму добавления карточки в DOM
 const cardForm = document.querySelector('form[name="card-form"]');
 
-// Находим форму добавления просмотра полного изображения в DOM
-const imageView = document.querySelector('.popup_type_image-view');
-
-const cardImage = imageView.querySelector('.popup__image');
-const cardCaption = imageView.querySelector('.popup__caption');
+const imageViewPopup = new PopupWithImage('.popup_type_image-view');
 
 const formValidators = {};
 
@@ -121,10 +118,7 @@ function handleCardFormSubmit(items) {
 
 // Обработчик клика по карточке
 function handleCardClick(name, link) {
-  cardCaption.textContent = name;
-  cardImage.src = link;
-  cardImage.alt = name;
-  openPopup(imageView);
+  imageViewPopup.open(name, link);
 }
 
 // Прикрепляем обработчики события click на popup
@@ -140,6 +134,7 @@ function addPopupCloseListeners() {
   });
 }
 
+imageViewPopup.setEventListeners();
 enableValidation(config);
 cardList.renderItems();
 addPopupCloseListeners();
