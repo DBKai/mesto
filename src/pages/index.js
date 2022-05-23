@@ -29,6 +29,9 @@ const confirmPopup = new PopupWithConfirmation('.popup_type_confirm', handleForm
 const avatarPopup = new PopupWithForm('.popup_type_avatar', handleAvatarFormSubmit);
 const avatarEditButton = document.querySelector('.profile__avatar-edit');
 const avatarForm = document.querySelector('form[name="avatar-form"]');
+const profileFormButton = profileForm.querySelector('.popup__button');
+const cardFormButton = cardForm.querySelector('.popup__button');
+const avatarFormButton = avatarForm.querySelector('.popup__button');
 
 const formValidators = {};
 
@@ -103,6 +106,7 @@ function openAvatar() {
 }
 
 function handleProfileFormSubmit(item) {
+  profileFormButton.textContent = 'Сохранение...';
   api.setUserInfo({
     name: item.name,
     about: item.about
@@ -118,11 +122,13 @@ function handleProfileFormSubmit(item) {
       console.log(`Ошибка: ${ err }`)
     })
     .finally(() => {
+      profileFormButton.textContent = 'Сохранить';
       profilePopup.close();
     });
 }
 
 function handleCardFormSubmit(item) {
+  cardFormButton.textContent = 'Создание...';
   api.addCard({
     name: item.name,
     link: item.link
@@ -132,6 +138,7 @@ function handleCardFormSubmit(item) {
       console.log(`Ошибка: ${ err }`);
     })
     .finally(() => {
+      cardFormButton.textContent = 'Создать';
       cardPopup.close();
     });
 }
@@ -171,6 +178,7 @@ function handleLikeCard(cardId, toggleLike, isLiked) {
 }
 
 function handleAvatarFormSubmit({ avatar }) {
+  avatarFormButton.textContent = 'Сохранение...';
   api.setUserAvatar(avatar)
     .then((res) => {
       if (res.ok) {
@@ -181,6 +189,7 @@ function handleAvatarFormSubmit({ avatar }) {
       console.log(`Ошибка: ${ err }`);
     })
     .finally(() => {
+      avatarFormButton.textContent = 'Сохранить';
       avatarPopup.close();
     });
 }
