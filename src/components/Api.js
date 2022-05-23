@@ -39,4 +39,28 @@ export default class Api {
         console.log(err);
       });
   }
+
+  setUserInfo({ name, about }) {
+    return fetch(`${this._url}users/me`, {
+      method: 'PATCH',
+      headers: {
+        authorization: this._token,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name,
+        about
+      })
+    })
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+
+        return Promise.reject(`Ошибка: ${res.status}`);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 }

@@ -1,5 +1,4 @@
 import './index.css';
-import { initialCards as cards } from '../scripts/cards.js';
 import config from '../scripts/constants.js';
 import Card from '../components/Card.js';
 import FormValidator from '../components/FormValidator.js';
@@ -90,8 +89,24 @@ function openCard() {
   cardPopup.open();
 }
 
-function handleProfileFormSubmit(items) {
-  userInfo.setUserInfo(items);
+function handleProfileFormSubmit(item) {
+  api.setUserInfo({
+    name: item.name,
+    about: item.about
+  })
+    .then(res => {
+      userInfo.setUserInfo({
+        name: res.name,
+        about: res.about,
+        avatar: res.avatar
+      });
+    })
+    .catch(err => {
+      console.log(`Ошибка: ${ err }`)
+    })
+    .finally(() => {
+      profilePopup.close();
+    });
 }
 
 function handleCardFormSubmit(items) {
