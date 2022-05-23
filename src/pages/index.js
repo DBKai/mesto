@@ -109,10 +109,18 @@ function handleProfileFormSubmit(item) {
     });
 }
 
-function handleCardFormSubmit(items) {
-  const card = new Card(items, cardTemplate, handleCardClick);
-  const cardItem = card.generateCard();
-  cardList.addItem(cardItem);
+function handleCardFormSubmit(item) {
+  api.addCard({
+    name: item.name,
+    link: item.link
+  })
+    .then(card => addCardToList(card))
+    .catch(err => {
+      console.log(`Ошибка: ${ err }`);
+    })
+    .finally(() => {
+      cardPopup.close();
+    });
 }
 
 function handleCardClick(name, link) {

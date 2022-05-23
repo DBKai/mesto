@@ -5,9 +5,10 @@ export default class Section {
   }
 
   renderItems(items) {
-    items.forEach((item) => {
-      this._renderer(item);
-    });
+    if (items === undefined) return;
+    for (let i = items.length - 1; i >= 0; i--) {
+      this._renderer(items[i]);
+    }
   }
 
   addItem(element) {
