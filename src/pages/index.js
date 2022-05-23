@@ -70,7 +70,8 @@ Promise.all([api.getUserInfo(), api.getCards()])
 function addCardToList(card) {
   const newCard = new Card({
     name: card.name,
-    link: card.link
+    link: card.link,
+    likes: card.likes
   }, cardTemplate, handleCardClick);
   const cardItem = newCard.generateCard();
   cardList.addItem(cardItem);

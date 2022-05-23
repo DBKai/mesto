@@ -66,17 +66,20 @@
   <div class="popup popup_type_image-view">
     <div class="popup__image-container">
       <button class="popup__close" type="button" aria-label="Закрыть окно просмотра карточки"></button>
-      <img class="popup__image">
+      <img class="popup__image" src="" alt="">
       <p class="popup__caption"></p>
     </div>
   </div>
   <template id="card-template">
     <article class="card">
       <button class="card__remove" type="button" aria-label="Удалить изображение"></button>
-      <img class="card__image">
+      <img class="card__image" src="" alt="">
       <div class="card__caption">
         <h2 class="card__title"></h2>
-        <button class="card__like" type="button" aria-label="Отметить изображение как понравившееся"></button>
+        <div class="card__like-container">
+          <button class="card__like" type="button" aria-label="Отметить изображение как понравившееся"></button>
+          <p class="card__like-count">0</p>
+        </div>
       </div>
     </article>
   </template>
