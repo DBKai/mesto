@@ -7,6 +7,7 @@ import Section from '../components/Section.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
+import Api from '../components/Api.js';
 
 // Находим кнопку изменить данные профиля в DOM
 const profileEditButton = document.querySelector('.profile__edit');
@@ -14,7 +15,7 @@ const profileEditButton = document.querySelector('.profile__edit');
 const profileForm = document.querySelector('form[name="profile-form"]');
 // Находим поля формы изменения данных профиля в DOM
 const profileNameInput = document.querySelector('#profile-name');
-const profileJobInput = document.querySelector('#profile-job');
+const profileAboutInput = document.querySelector('#profile-about');
 // Находим кнопку добавить карточку в DOM
 const cardAddButton = document.querySelector('.profile__card-add');
 // Находим шаблон карточки
@@ -24,7 +25,7 @@ const cardForm = document.querySelector('form[name="card-form"]');
 const imageViewPopup = new PopupWithImage('.popup_type_image-view');
 const profilePopup = new PopupWithForm('.popup_type_profile', handleProfileFormSubmit);
 const cardPopup = new PopupWithForm('.popup_type_card', handleCardFormSubmit);
-const userInfo = new UserInfo({ nameSelector: '.profile__name', jobSelector: '.profile__job' });
+
 const formValidators = {};
 
 const enableValidation = (config) => {
@@ -36,6 +37,30 @@ const enableValidation = (config) => {
     validator.enableValidation();
   });
 };
+
+const api = new Api({
+  url: `https://nomoreparties.co/v1/cohort-41/`,
+  token: `f6ceccbe-01ab-42c9-9385-e3a8b94b887a`
+});
+
+const userInfo = new UserInfo({
+  nameSelector: '.profile__name',
+  aboutSelector: '.profile__about',
+  avatarSelector: '.profile__avatar'
+});
+
+api.getUserInfo()
+  .then(user => {
+    userInfo.setUserInfo({
+      id: user._id,
+      name: user.name,
+      about: user.about,
+      avatar: user.avatar
+    });
+  })
+  .catch(err => {
+    console.log(`Ошибка: ${ err }`);
+  });
 
 const cardList = new Section(
   { items: cards,
@@ -51,7 +76,7 @@ const cardList = new Section(
 function openProfile() {
   const user = userInfo.getUserInfo();
   profileNameInput.value = user.name;
-  profileJobInput.value = user.job;
+  profileAboutInput.value = user.about;
   formValidators[profileForm.getAttribute('name')].resetValidation();
   profilePopup.open();
 }

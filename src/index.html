@@ -12,13 +12,15 @@
   </header>
   <main class="content">
     <section class="profile">
-      <img class="profile__avatar" src="<%=require('./images/avatar.jpg')%>" alt="Аватар профиля">
+      <button class="profile__avatar-edit" type="button" aria-label="Изменить аватар профиля">
+        <img class="profile__avatar" src="" alt="Аватар профиля">
+      </button>
       <div class="profile__info">
         <div class="profile__info-container">
-          <h1 class="profile__name">Жак-Ив Кусто</h1>
+          <h1 class="profile__name"></h1>
           <button class="profile__edit" type="button" aria-label="Редактировать профиль"></button>
         </div>
-        <p class="profile__job">Исследователь океана</p>
+        <p class="profile__about"></p>
       </div>
       <button class="profile__card-add" type="button" aria-label="Добавить изображение"></button>
     </section>
@@ -36,9 +38,9 @@
           <input type="text" id="profile-name" name="name" class="popup__item"
                  placeholder="Имя" minlength="2" maxlength="40" required>
           <span id="profile-name-error" class="popup__item-error"></span>
-          <input type="text" id="profile-job" name="job" class="popup__item"
+          <input type="text" id="profile-about" name="about" class="popup__item"
                  placeholder="О себе" minlength="2" maxlength="200" required>
-          <span id="profile-job-error" class="popup__item-error"></span>
+          <span id="profile-about-error" class="popup__item-error"></span>
         </fieldset>
         <button class="popup__button">Сохранить</button>
       </form>
