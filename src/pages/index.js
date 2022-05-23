@@ -49,29 +49,33 @@ const userInfo = new UserInfo({
   avatarSelector: '.profile__avatar'
 });
 
-api.getUserInfo()
-  .then(user => {
+const cardList = new Section({
+  renderer: (item) => addCardToList(item)
+}, '.cards');
+
+Promise.all([api.getUserInfo(), api.getCards()])
+  .then(([user, cards]) => {
     userInfo.setUserInfo({
       id: user._id,
       name: user.name,
       about: user.about,
       avatar: user.avatar
     });
+
+    cardList.renderItems(cards);
   })
   .catch(err => {
     console.log(`Ошибка: ${ err }`);
   });
 
-const cardList = new Section(
-  { items: cards,
-    renderer: (item) => {
-      const card = new Card(item, cardTemplate, handleCardClick);
-      const cardElement = card.generateCard();
-      cardList.addItem(cardElement);
-    }
-  },
-  '.cards'
-);
+function addCardToList(card) {
+  const newCard = new Card({
+    name: card.name,
+    link: card.link
+  }, cardTemplate, handleCardClick);
+  const cardItem = newCard.generateCard();
+  cardList.addItem(cardItem);
+}
 
 function openProfile() {
   const user = userInfo.getUserInfo();
@@ -104,6 +108,5 @@ imageViewPopup.setEventListeners();
 profilePopup.setEventListeners();
 cardPopup.setEventListeners();
 enableValidation(config);
-cardList.renderItems();
 profileEditButton.addEventListener('click', openProfile);
 cardAddButton.addEventListener('click', openCard);
