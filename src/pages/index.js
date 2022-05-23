@@ -5,6 +5,7 @@ import FormValidator from '../components/FormValidator.js';
 import Section from '../components/Section.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
+import PopupWithConfirmation from '../components/PopupWithConfirmation.js';
 import UserInfo from '../components/UserInfo.js';
 import Api from '../components/Api.js';
 
@@ -24,6 +25,7 @@ const cardForm = document.querySelector('form[name="card-form"]');
 const imageViewPopup = new PopupWithImage('.popup_type_image-view');
 const profilePopup = new PopupWithForm('.popup_type_profile', handleProfileFormSubmit);
 const cardPopup = new PopupWithForm('.popup_type_card', handleCardFormSubmit);
+const confirmPopup = new PopupWithConfirmation('.popup_type_confirm', handleFormConfirm);
 
 const formValidators = {};
 
@@ -69,10 +71,11 @@ Promise.all([api.getUserInfo(), api.getCards()])
 
 function addCardToList(card) {
   const newCard = new Card({
+    id: card._id,
     name: card.name,
     link: card.link,
     likes: card.likes
-  }, cardTemplate, handleCardClick);
+  }, cardTemplate, handleCardClick, handleRemoveCard);
   const cardItem = newCard.generateCard();
   cardList.addItem(cardItem);
 }
@@ -128,9 +131,26 @@ function handleCardClick(name, link) {
   imageViewPopup.open(name, link);
 }
 
+function handleRemoveCard(cardId, currentCard) {
+  confirmPopup.open(cardId, currentCard);
+}
+
+function handleFormConfirm(cardId, currentCard) {
+  api.removeCard(cardId)
+    .then((isSuccess) => {
+      if (isSuccess) {
+        currentCard.remove();
+      }
+    })
+    .catch(err => {
+      console.log(`Ошибка: ${ err }`);
+    });
+}
+
 imageViewPopup.setEventListeners();
 profilePopup.setEventListeners();
 cardPopup.setEventListeners();
+confirmPopup.setEventListeners();
 enableValidation(config);
 profileEditButton.addEventListener('click', openProfile);
 cardAddButton.addEventListener('click', openCard);

@@ -1,10 +1,12 @@
 export default class Card {
-  constructor({ name, link, likes }, cardTemplate, handleCardClick) {
+  constructor({ id, name, link, likes }, cardTemplate, handleCardClick, handleRemoveCard) {
+    this._id = id;
     this._name = name;
     this._link = link;
     this._likes = likes;
     this._cardTemplate = cardTemplate;
     this._handleCardClick = handleCardClick;
+    this._handleRemoveCard = handleRemoveCard;
   }
 
   _getTemplate = () => {
@@ -21,8 +23,8 @@ export default class Card {
     event.target.classList.toggle('card__like_active');
   }
 
-  _removeCard = (event) => {
-    event.target.closest('.card').remove();
+  _removeCard = () => {
+    this._handleRemoveCard(this._id, this._cardElement);
   }
 
   generateCard = () => {
