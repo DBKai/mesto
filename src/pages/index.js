@@ -26,6 +26,9 @@ const imageViewPopup = new PopupWithImage('.popup_type_image-view');
 const profilePopup = new PopupWithForm('.popup_type_profile', handleProfileFormSubmit);
 const cardPopup = new PopupWithForm('.popup_type_card', handleCardFormSubmit);
 const confirmPopup = new PopupWithConfirmation('.popup_type_confirm', handleFormConfirm);
+const avatarPopup = new PopupWithForm('.popup_type_avatar', handleAvatarFormSubmit);
+const avatarEditButton = document.querySelector('.profile__avatar-edit');
+const avatarForm = document.querySelector('form[name="avatar-form"]');
 
 const formValidators = {};
 
@@ -92,6 +95,11 @@ function openProfile() {
 function openCard() {
   formValidators[cardForm.getAttribute('name')].resetValidation();
   cardPopup.open();
+}
+
+function openAvatar() {
+  formValidators[avatarForm.getAttribute('name')].resetValidation();
+  avatarPopup.open();
 }
 
 function handleProfileFormSubmit(item) {
@@ -162,10 +170,27 @@ function handleLikeCard(cardId, toggleLike, isLiked) {
   }
 }
 
+function handleAvatarFormSubmit({ avatar }) {
+  api.setUserAvatar(avatar)
+    .then((res) => {
+      if (res.ok) {
+        userInfo.setUserAvatar(avatar);
+      }
+    })
+    .catch(err => {
+      console.log(`Ошибка: ${ err }`);
+    })
+    .finally(() => {
+      avatarPopup.close();
+    });
+}
+
 imageViewPopup.setEventListeners();
 profilePopup.setEventListeners();
 cardPopup.setEventListeners();
 confirmPopup.setEventListeners();
+avatarPopup.setEventListeners();
 enableValidation(config);
 profileEditButton.addEventListener('click', openProfile);
 cardAddButton.addEventListener('click', openCard);
+avatarEditButton.addEventListener('click', openAvatar);

@@ -144,4 +144,21 @@ export default class Api {
         console.log(err);
       });
   }
+
+  setUserAvatar(link) {
+    return fetch(`${this._url}users/me/avatar`, {
+      method: 'PATCH',
+      headers: {
+        authorization: this._token,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        avatar: link
+      })
+    })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
 }
