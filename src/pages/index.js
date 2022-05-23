@@ -62,7 +62,6 @@ Promise.all([api.getUserInfo(), api.getCards()])
       about: user.about,
       avatar: user.avatar
     });
-
     cardList.renderItems(cards);
   })
   .catch(err => {
@@ -77,7 +76,7 @@ function addCardToList(card) {
     likes: card.likes,
     ownerId: card.owner._id,
     userId: userInfo._id
-  }, cardTemplate, handleCardClick, handleRemoveCard);
+  }, cardTemplate, handleCardClick, handleRemoveCard, handleLikeCard);
   const cardItem = newCard.generateCard();
   cardList.addItem(cardItem);
 }
@@ -147,6 +146,20 @@ function handleFormConfirm(cardId, currentCard) {
     .catch(err => {
       console.log(`Ошибка: ${ err }`);
     });
+}
+
+function handleLikeCard(cardId, toggleLike, isLiked) {
+  if (isLiked) {
+    api.removeLikeCard(cardId)
+      .then((res) => {
+        toggleLike(res.likes.length);
+      });
+  } else {
+    api.addLikeCard(cardId)
+      .then((res) => {
+        toggleLike(res.likes.length);
+      });
+  }
 }
 
 imageViewPopup.setEventListeners();

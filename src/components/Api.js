@@ -106,4 +106,42 @@ export default class Api {
         console.log(err);
       });
   }
+
+  addLikeCard(cardId) {
+    return fetch(`${this._url}cards/${cardId}/likes`, {
+      method: 'PUT',
+      headers: {
+        authorization: this._token
+      },
+    })
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+
+        return Promise.reject(`Ошибка: ${res.status}`);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  removeLikeCard(cardId) {
+    return fetch(`${this._url}cards/${cardId}/likes`, {
+      method: 'DELETE',
+      headers: {
+        authorization: this._token
+      },
+    })
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+
+        return Promise.reject(`Ошибка: ${res.status}`);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 }

@@ -1,5 +1,6 @@
 export default class Card {
-  constructor({ id, name, link, likes, ownerId, userId }, cardTemplate, handleCardClick, handleRemoveCard) {
+  constructor({ id, name, link, likes, ownerId, userId },
+              cardTemplate, handleCardClick, handleRemoveCard, handleLikeCard) {
     this._id = id;
     this._name = name;
     this._link = link;
@@ -9,6 +10,7 @@ export default class Card {
     this._cardTemplate = cardTemplate;
     this._handleCardClick = handleCardClick;
     this._handleRemoveCard = handleRemoveCard;
+    this._handleLikeCard = handleLikeCard
   }
 
   _getTemplate = () => {
@@ -27,12 +29,28 @@ export default class Card {
     this._handleCardClick(this._name, this._link)
   }
 
-  _likeCard = (event) => {
-    event.target.classList.toggle('card__like_active');
+  toggleLike = (likeCount) => {
+    this._cardLike.classList.toggle('card__like_active');
+    this._cardLikeCount.textContent = likeCount;
+  }
+
+  _likeCard = () => {
+    this._handleLikeCard(this._id, this.toggleLike, this._isLiked);
+    this._isLiked = !this._isLiked;
   }
 
   _removeCard = () => {
     this._handleRemoveCard(this._id, this._cardElement);
+  }
+
+  _checkLikeMark = () => {
+    let result = false;
+    this._likes.map((like) => {
+      if (this._userId === like._id) {
+        result = true;
+      }
+    });
+    return result;
   }
 
   generateCard = () => {
@@ -48,6 +66,11 @@ export default class Card {
 
     if (this._userId !== undefined && this._userId !== this._ownerId) {
       this._cardRemove.remove();
+    }
+
+    this._isLiked = this._checkLikeMark();
+    if (this._isLiked) {
+      this._cardLike.classList.add('card__like_active');
     }
 
     this._setEventListeners();
