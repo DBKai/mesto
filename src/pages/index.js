@@ -74,7 +74,9 @@ function addCardToList(card) {
     id: card._id,
     name: card.name,
     link: card.link,
-    likes: card.likes
+    likes: card.likes,
+    ownerId: card.owner._id,
+    userId: userInfo._id
   }, cardTemplate, handleCardClick, handleRemoveCard);
   const cardItem = newCard.generateCard();
   cardList.addItem(cardItem);
