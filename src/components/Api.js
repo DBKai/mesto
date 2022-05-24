@@ -11,7 +11,6 @@ export default class Api {
       }
     })
       .then(this._getJson)
-      .catch(this._handleRequestError);
   }
 
   getCards() {
@@ -21,7 +20,6 @@ export default class Api {
       }
     })
       .then(this._getJson)
-      .catch(this._handleRequestError);
   }
 
   setUserInfo({ name, about }) {
@@ -37,7 +35,6 @@ export default class Api {
       })
     })
       .then(this._getJson)
-      .catch(this._handleRequestError);
   }
 
   addCard({ name, link }) {
@@ -53,7 +50,6 @@ export default class Api {
       })
     })
       .then(this._getJson)
-      .catch(this._handleRequestError);
   }
 
   removeCard(cardId) {
@@ -63,14 +59,7 @@ export default class Api {
         authorization: this._token
       },
     })
-      .then((res) => {
-        if (res.ok) {
-          return true;
-        }
-
-        return Promise.reject(`Ошибка: ${res.status}`);
-      })
-      .catch(this._handleRequestError);
+      .then(this._getJson)
   }
 
   addLikeCard(cardId) {
@@ -81,7 +70,6 @@ export default class Api {
       },
     })
       .then(this._getJson)
-      .catch(this._handleRequestError);
   }
 
   removeLikeCard(cardId) {
@@ -92,7 +80,6 @@ export default class Api {
       },
     })
       .then(this._getJson)
-      .catch(this._handleRequestError);
   }
 
   setUserAvatar(link) {
@@ -106,11 +93,7 @@ export default class Api {
         avatar: link
       })
     })
-      .catch(this._handleRequestError);
-  }
-
-  _handleRequestError(err) {
-    console.log(err);
+      .then(this._getJson)
   }
 
   _getJson(res) {

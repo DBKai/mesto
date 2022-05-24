@@ -40,7 +40,11 @@ export default class Card {
   }
 
   _removeCard = () => {
-    this._handleRemoveCard(this._id, this._cardElement);
+    this._handleRemoveCard(this._id, this);
+  }
+
+  removeCard = () => {
+    this._cardElement.remove();
   }
 
   _checkLikeMark = () => {
