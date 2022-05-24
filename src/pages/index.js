@@ -119,13 +119,13 @@ function handleProfileFormSubmit(item) {
         about: res.about,
         avatar: res.avatar
       });
+      profilePopup.close();
     })
     .catch(err => {
       console.log(`Ошибка: ${ err }`)
     })
     .finally(() => {
       profileFormButton.textContent = 'Сохранить';
-      profilePopup.close();
     });
 }
 
@@ -138,13 +138,13 @@ function handleCardFormSubmit(item) {
     .then(item => {
       const card = createCard(item);
       addCardToList(card);
+      cardPopup.close();
     })
     .catch(err => {
       console.log(`Ошибка: ${ err }`);
     })
     .finally(() => {
       cardFormButton.textContent = 'Создать';
-      cardPopup.close();
     });
 }
 
@@ -153,13 +153,13 @@ function handleAvatarFormSubmit({ avatar }) {
   api.setUserAvatar(avatar)
     .then(() => {
       userInfo.setUserAvatar(avatar);
+      avatarPopup.close();
     })
     .catch(err => {
       console.log(`Ошибка: ${ err }`);
     })
     .finally(() => {
       avatarFormButton.textContent = 'Сохранить';
-      avatarPopup.close();
     });
 }
 
@@ -175,12 +175,10 @@ function handleFormConfirm(cardId, card) {
   api.removeCard(cardId)
     .then(() => {
       card.removeCard();
+      confirmPopup.close();
     })
     .catch(err => {
       console.log(`Ошибка: ${ err }`);
-    })
-    .finally(() => {
-      confirmPopup.close();
     });
 }
 
