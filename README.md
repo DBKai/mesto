@@ -14,7 +14,7 @@
 - Транспиляция JS кода Babel
 - Минификация CSS, autoprefixer PostCSS
 
-Ознакомиться с проектом можно здесь: [https://dkay.ru/mesto/](https://dkay.ru/mesto/)
+Ознакомиться с проектом можно здесь: [https://dbkai.github.io/mesto/](https://dbkai.github.io/mesto/)
 
 ## Как создавался проект
 ### Проектная работа №4 (верстка)
